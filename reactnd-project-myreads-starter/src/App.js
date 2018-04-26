@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import SearchPage from './components/SearchBooks'
+import {Route, BrowserRouter, Link} from "react-router-dom";
+import SearchBooks from './components/SearchBooks'
 import BookList from './components/BookList'
 
 class BooksApp extends Component {
@@ -22,27 +23,44 @@ class BooksApp extends Component {
     }
 
     updateShelf = (bookid, shelf) => {
-        BooksAPI.update({id:bookid}, shelf).then(() => this.getAllBooks());
+        BooksAPI.update({id: bookid}, shelf).then(() => this.getAllBooks());
     }
 
     render() {
         return (
-            <div className="app">
-                {this.state.showSearchPage ? (
-                    <SearchPage onCloseSearch={(showSearchPage) => this.setState({showSearchPage})}
-                    onUpdateShelf={(bookid, shelf) => this.updateShelf(bookid, shelf)}
-                    />
-                ) : (
-                    <div>
-                        <BookList
-                            books={this.state.books}
-                            onUpdateShelf={(bookid, shelf) => this.updateShelf(bookid, shelf)}/>
-                        <div className="open-search">
-                            <a onClick={() => this.setState({showSearchPage: true})}>Add a book</a>
-                        </div>
-                    </div>
-                )}
-            </div>
+            <BrowserRouter>
+                <div className="app">
+
+                    <Route path="/" exact
+                           render={() => (
+                               <div className="list-books">
+                                   <div className="list-books-title">
+                                       <h1>MyReads</h1>
+                                   </div>
+                                   <div>
+                                       <BookList
+                                           books={this.state.books}
+                                           onUpdateShelf={this.updateShelf}
+                                       />
+                                       <div className="open-search">
+                                           <Link to="/search">Add a book</Link>
+                                       </div>
+                                   </div>
+                               </div>
+                           )}
+                    >
+                    </Route>
+                    <Route path="/search" exact
+                           render={() => (
+                               <SearchBooks
+                                   books={this.state.books}
+                                   onUpdateShelf={this.updateShelf}
+                               />
+                           )}
+                    >
+                    </Route>
+                </div>
+            </BrowserRouter>
         );
     }
 

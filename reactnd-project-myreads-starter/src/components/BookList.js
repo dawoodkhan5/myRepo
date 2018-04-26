@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import BookShelf from './BookShelf'
 
+
 class BookList extends Component {
-    shelf = [
+    shelves = [
         {
             name: `currentlyReading`,
             title: `Currently Reading`
@@ -18,25 +19,22 @@ class BookList extends Component {
     ]
 
     render() {
-        const shelfs = this.shelf
-        const books = this.props.books
+        const shelves  = this.shelves
+        const {books} = this.props
         return (
-            <div className="list-books">
-                <div className="list-books-title">
-                    <h1>MyReads</h1>
-                </div>
-                <div className="list-books-content">
-                    <div>
-                        { shelfs.map((shelf) => (
-                            <BookShelf
-                                title={shelf.title}
-                                books={books.filter((book) => book.shelf === shelf.name)}
-                                onUpdateShelf={this.props.onUpdateShelf}
-                            />
-                        )) }
-                    </div>
+
+            <div className="list-books-content">
+                <div>
+                    { shelves.map((shelf) => (
+                        <BookShelf
+                            title={shelf.title}
+                            books={books.filter((book) => book.shelf === shelf.name)}
+                            onUpdateShelf={this.props.onUpdateShelf}
+                        />
+                    )) }
                 </div>
             </div>
+
         )
     }
 }
