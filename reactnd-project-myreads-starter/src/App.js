@@ -22,18 +22,16 @@ class BooksApp extends Component {
     }
 
     updateShelf = (bookid, shelf) => {
-        debugger
-        BooksAPI.update(bookid, shelf).then(() => {
-            debugger
-            this.getAllBooks()
-        });
+        BooksAPI.update({id:bookid}, shelf).then(() => this.getAllBooks());
     }
 
     render() {
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
-                    <SearchPage onCloseSearch={(showSearchPage) => this.setState({showSearchPage})}/>
+                    <SearchPage onCloseSearch={(showSearchPage) => this.setState({showSearchPage})}
+                    onUpdateShelf={(bookid, shelf) => this.updateShelf(bookid, shelf)}
+                    />
                 ) : (
                     <div>
                         <BookList

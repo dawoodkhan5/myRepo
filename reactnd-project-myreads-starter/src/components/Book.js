@@ -2,10 +2,8 @@ import React, {Component} from 'react'
 
 class Book extends Component {
 
-    changeShelf = (e) => {
-        debugger
-        this.props.onUpdateShelf(this.props.id,e.target.value)
-    }
+    changeShelf = (e) => this.props.onUpdateShelf(this.props.id,e.target.value)
+
 
     render() {
         return (
