@@ -9,11 +9,31 @@ class SearchBooks extends Component {
         query: ''
     }
 
+    filterBooks(result_books, shelf_books) {
+        const books = result_books.map((result_book) => {
+            shelf_books.map((shelf_book) => {
+                if (result_book.id === shelf_book.id) {
+                    result_book.shelf = shelf_book.shelf
+                }
+                else {
+                    result_book.shelf = 'none'
+                }
+                return result_book
+            })
+            return result_book
+        })
+        return books
+    }
+
+
     searchBook = (e) => {
         const value = e.target.value
         this.setState({query: value})
         if (value.length > 2) {
             BooksAPI.search(this.state.query).then((books) => {
+                if (books.length > 0) {
+                    books = this.filterBooks(books, this.props.books)
+                }
                 this.setState({books})
             });
         }
